@@ -1,0 +1,16 @@
+{% extends 'web/base.html' %}
+{% block content %}
+    <h2>Создание юзера</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить</button>
+        
+    </form>
+    {% for user in users %}
+    <li>
+        {{ user }} <a href="{% url 'delete_user' user.id %}">Удалить пользователя</a>
+    </li>
+    <br>
+    {% endfor %}
+{% endblock %}

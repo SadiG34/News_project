@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color: {{ color }}; color: {{ font_color }}; font-size: {{ font_size }}px;">
+    <h1><a href="{% url 'main' %}">Новости</a></h1>
+    <nav>
+        {% if user.is_anonymous %}
+            <div style="text-align: right">
+                <a href="{% url 'registration' %}">Регистрация</a>
+                <a href="{% url 'auth' %}">Войти</a>
+            </div>
+        {% else %}
+            <a href="{% url 'main' %}">Новости</a>
+            <a href="{% url 'news_add' %}">Написать новость</a>
+            <a href="#">Избранное</a>
+            <a href="{% url 'tags' %}">Теги</a>
+        {% for group in request.user.groups.all %}
+                {% if group.name == 'Admins' %}
+                    <a href="{% url 'add_user' %}">Добавить пользователя</a>
+                    <a href="{% url 'block_user' %}">Заблокировать пользователя</a>
+                    <a href="{% url 'settings' %}">Color</a>
+                {% endif %}
+        {% endfor %}
+            
+            <div style="text-align:right">
+                <span>Вы авторизованы как <b>{{ user.username }}</b></span>
+                <a href="{% url 'logout' %}">Выход</a>
+            </div>
+        {% endif %}
+    </nav>
+
+    {% block content %}{% endblock %}
+</body>
+</html>
